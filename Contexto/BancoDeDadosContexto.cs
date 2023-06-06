@@ -41,6 +41,30 @@ public class BancoDeDadosContexto : DbContext
         });
         #endregion
 
+        #region "Produto"
+        modelBuilder.Entity<Produto>(entity =>
+        {
+            entity.ToTable("produtos");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id)
+                .HasColumnName("Id")
+                .ValueGeneratedOnAdd()
+                .ValueGeneratedOnAdd().UseMySqlIdentityColumn();
+
+            entity.Property(e => e.Nome)
+                .IsRequired()
+                .HasMaxLength(100)
+                .HasColumnName("nome");
+
+            entity.Property(e => e.Valor)
+                .IsRequired()
+                .HasColumnName("valor");
+
+            entity.Property(e => e.Descricao)
+                .HasColumnType("text");
+        });
+        #endregion
+
         base.OnModelCreating(modelBuilder);
     }
 
@@ -63,4 +87,7 @@ public class BancoDeDadosContexto : DbContext
 
     public DbSet<Cliente> Clientes { get; set; } = default!;
     public DbSet<Fornecedor> Fornecedores { get; set; } = default!;
+    public DbSet<Pedido> Pedidos { get; set; } = default!;
+    public DbSet<Produto> Produtos { get; set; } = default!;
+    public DbSet<PedidoProduto> PedidosProdutos { get; set; } = default!;
 }

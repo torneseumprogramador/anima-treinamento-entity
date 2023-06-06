@@ -85,9 +85,35 @@ app.MapGet("/weatherforecast", () =>
 
 app.MapGet("/", ([FromServices] BancoDeDadosContexto contexto) =>
 {
+    // return new StatusCodeResult(404);
+    // return Results.NotFound(new { Mensagem = "Não encontrado" });
+
+    // return new StatusCodeResult(404, new { Mensagem = "Não encontrado" });
     return contexto.Clientes.ToList();
 })
 .WithName("Home")
+.WithOpenApi();
+
+
+
+
+app.MapGet("/clientes-com-pedidos", ([FromServices] BancoDeDadosContexto contexto) =>
+{
+    var lista = contexto.Pedidos.Include(p => p.Cliente).Select( p =>  new { 
+        cli_nome = p.Cliente.Nome,
+        cli_telefone = p.Cliente.Telefone,
+        valortotal = p.ValorTotal
+    })
+    .Skip(0)
+    .Take(10).ToList();
+
+    // foreach(var item in lista)
+    // {
+    //     Console.WriteLine(item.);
+    // }
+
+    return lista;
+})
 .WithOpenApi();
 
 app.Run();
