@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using entity.Contexto;
 
@@ -10,9 +11,11 @@ using entity.Contexto;
 namespace entity.Migrations
 {
     [DbContext(typeof(BancoDeDadosContexto))]
-    partial class BancoDeDadosContextoModelSnapshot : ModelSnapshot
+    [Migration("20230606125946_CriandoFornecedoresEMudandoClientes")]
+    partial class CriandoFornecedoresEMudandoClientes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,34 +50,6 @@ namespace entity.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("tb_clientes", (string)null);
-                });
-
-            modelBuilder.Entity("entity.Entidades.Fornecedor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("cli_id");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("cli_nome");
-
-                    b.Property<string>("Observacao")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Telefone")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar(20)")
-                        .HasColumnName("cli_telefone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tb_fornecedores");
                 });
 #pragma warning restore 612, 618
         }
