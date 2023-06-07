@@ -11,3 +11,4 @@ mv appsettings.json.sample appsettings.json
 - querys com entity (query com entity, com linq to sql e com query bruta)
 - models views para o entity (scaffold)
 - possiveis problemas ao buscar e salvar registros novos
+- trabalhar com async (paralelismo)

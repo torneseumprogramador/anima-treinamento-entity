@@ -142,6 +142,7 @@ app.MapGet("/clientes-com-pedidos", ([FromServices] BancoDeDadosContexto context
     */
 
     /*
+    // ### Objetos encadeados ###
     var relatorioEntity = contexto.Pedidos
     .Join(
         contexto.PedidosProdutos,
@@ -177,6 +178,8 @@ app.MapGet("/clientes-com-pedidos", ([FromServices] BancoDeDadosContexto context
 
     */
 
+    
+    // ### link to sql ###
     var relatorioEntity = (from pedido in contexto.Pedidos
         join pedidoProduto in contexto.PedidosProdutos on pedido.Id equals pedidoProduto.PedidoId
         join produto in contexto.Produtos on pedidoProduto.ProdutoId equals produto.Id
@@ -202,6 +205,69 @@ app.MapGet("/clientes-com-pedidos", ([FromServices] BancoDeDadosContexto context
     });
 
     var lista = relatorioEntity.Skip(offset).Take(totalPage).ToList();
+
+    
+
+    /* // ### query bruta ###
+    var connection = contexto.Database.GetDbConnection();
+    try
+    {
+        connection.Open();
+
+        using (var command = connection.CreateCommand())
+        {
+            var query = @"
+                SELECT 
+                    p.Id AS Id,
+                    c.cli_nome AS Nome,
+                    c.cli_telefone AS Telefone,
+                    p.valortotal AS ValorTotal,
+                    pr.nome AS NomeProduto,
+                    pp.quantidade AS QuantidadeVendidaParaProduto,
+                    pp.valor AS ValorVendidaParaProduto
+                FROM
+                    Pedidos p
+                    INNER JOIN PedidosProdutos pp ON p.Id = pp.PedidoId
+                    INNER JOIN Produtos pr ON pp.ProdutoId = pr.Id
+                    INNER JOIN tb_clientes c ON p.clienteid = c.cli_id
+                GROUP BY
+                    p.Id,
+                    c.cli_nome,
+                    c.cli_telefone,
+                    p.valortotal
+                OFFSET @offset ROWS
+                FETCH NEXT @totalPage ROWS ONLY";
+
+            command.CommandText = query;
+            command.Parameters.Add(new SqlParameter("@offset", offset));
+            command.Parameters.Add(new SqlParameter("@totalPage", totalPage));
+
+            var relatorioEntity2 = new List<PedidoClienteSomadas>();
+
+            using (var result = command.ExecuteReader())
+            {
+                while (result.Read())
+                {
+                    var relatorio = new PedidoClienteSomadas
+                    {
+                        Id = result.GetInt32(0),
+                        Nome = result.GetString(1),
+                        Telefone = result.GetString(2),
+                        ValorTotal = result.GetDouble(3),
+                        QuantidadeSomadaProduto = result.GetInt32(4),
+                        ValorSomadoProduto = result.GetDouble(5)
+                    };
+
+                    relatorioEntity2.Add(relatorio);
+                }
+            }
+        }
+    }
+    finally
+    {
+        connection.Close();
+    }
+    */
 
     return new RegistroPaginado<PedidoClienteSomadas>{
         Registros = lista,
