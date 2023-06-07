@@ -2,6 +2,7 @@ using entity.Contexto;
 using Microsoft.EntityFrameworkCore;
 using entity.Entidades;
 using Microsoft.AspNetCore.Mvc;
+using entity.ModelViews;
 
 
 // #### Uso da estratégia 1 ####
@@ -97,22 +98,117 @@ app.MapGet("/", ([FromServices] BancoDeDadosContexto contexto) =>
 
 
 
-app.MapGet("/clientes-com-pedidos", ([FromServices] BancoDeDadosContexto contexto) =>
+app.MapGet("/clientes-com-pedidos", ([FromServices] BancoDeDadosContexto contexto, [FromQuery] int? page) =>
 {
-    var lista = contexto.Pedidos.Include(p => p.Cliente).Select( p =>  new { 
-        cli_nome = p.Cliente.Nome,
-        cli_telefone = p.Cliente.Telefone,
-        valortotal = p.ValorTotal
+    var totalPage = 2;
+    if(page == null || page < 1) page = 1;
+
+    int offset = ((int)page - 1) * totalPage;
+
+    /*var relatorioEntity = contexto.Pedidos
+                            .Include(p => p.Cliente)
+                            .Select( p => new PedidoCliente { 
+                                Nome = p.Cliente.Nome,
+                                Telefone = p.Cliente.Telefone,
+                                ValorTotal = p.ValorTotal
+    });*/
+
+    /*
+    var relatorioEntity = contexto.Pedidos
+        .Join(
+            contexto.PedidosProdutos,
+            pedido => pedido.Id,
+            pedidoProduto => pedidoProduto.PedidoId,
+            (pedido, pedidoProduto) => new { 
+                Pedido = pedido, 
+                PedidoProduto = pedidoProduto 
+            }
+        )
+        .Join(
+            contexto.Produtos,
+            p => p.PedidoProduto.ProdutoId,
+            produto => produto.Id,
+            (p, produto) => new PedidoCliente
+            {
+                Id = p.Pedido.Id,
+                Nome = p.Pedido.Cliente.Nome,
+                Telefone = p.Pedido.Cliente.Telefone,
+                ValorTotal = p.Pedido.ValorTotal,
+                NomeProduto = produto.Nome,
+                QuantidadeVendidaParaProduto = p.PedidoProduto.Quantidade,
+                ValorVendidaParaProduto = p.PedidoProduto.Valor
+            }
+    );
+    */
+
+    /*
+    var relatorioEntity = contexto.Pedidos
+    .Join(
+        contexto.PedidosProdutos,
+        pedido => pedido.Id,
+        pedidoProduto => pedidoProduto.PedidoId,
+        (pedido, pedidoProduto) => new { Pedido = pedido, PedidoProduto = pedidoProduto }
+    )
+    .Join(
+        contexto.Produtos,
+        p => p.PedidoProduto.ProdutoId,
+        produto => produto.Id,
+        (p, produto) => new PedidoCliente
+        {
+            Id = p.Pedido.Id,
+            Nome = p.Pedido.Cliente.Nome,
+            Telefone = p.Pedido.Cliente.Telefone,
+            ValorTotal = p.Pedido.ValorTotal,
+            NomeProduto = produto.Nome,
+            QuantidadeVendidaParaProduto = p.PedidoProduto.Quantidade,
+            ValorVendidaParaProduto = p.PedidoProduto.Valor
+        }
+    )
+    .GroupBy(p => new { p.Id, p.Nome, p.Telefone, p.ValorTotal })
+    .Select(g => new PedidoClienteSomadas
+    {
+        Id = g.Key.Id,
+        Nome = g.Key.Nome,
+        Telefone = g.Key.Telefone,
+        ValorTotal = g.Key.ValorTotal,
+        QuantidadeSomadaProduto = g.Sum(p => p.QuantidadeVendidaParaProduto),
+        ValorSomadoProduto = g.Sum(p => p.ValorVendidaParaProduto)
+    });
+
+    */
+
+    var relatorioEntity = (from pedido in contexto.Pedidos
+        join pedidoProduto in contexto.PedidosProdutos on pedido.Id equals pedidoProduto.PedidoId
+        join produto in contexto.Produtos on pedidoProduto.ProdutoId equals produto.Id
+    select new PedidoCliente
+    {
+        Id = pedido.Id,
+        Nome = pedido.Cliente.Nome,
+        Telefone = pedido.Cliente.Telefone,
+        ValorTotal = pedido.ValorTotal,
+        NomeProduto = produto.Nome,
+        QuantidadeVendidaParaProduto = pedidoProduto.Quantidade,
+        ValorVendidaParaProduto = pedidoProduto.Valor
     })
-    .Skip(0)
-    .Take(10).ToList();
+    .GroupBy(p => new { p.Id, p.Nome, p.Telefone, p.ValorTotal })
+    .Select(g => new PedidoClienteSomadas
+    {
+        Id = g.Key.Id,
+        Nome = g.Key.Nome,
+        Telefone = g.Key.Telefone,
+        ValorTotal = g.Key.ValorTotal,
+        QuantidadeSomadaProduto = g.Sum(p => p.QuantidadeVendidaParaProduto),
+        ValorSomadoProduto = g.Sum(p => p.ValorVendidaParaProduto)
+    });
 
-    // foreach(var item in lista)
-    // {
-    //     Console.WriteLine(item.);
-    // }
+    var lista = relatorioEntity.Skip(offset).Take(totalPage).ToList();
 
-    return lista;
+    return new RegistroPaginado<PedidoClienteSomadas>{
+        Registros = lista,
+        TotalPorPagina = totalPage,
+        PaginaCorrente = (int)page,
+        TotalRegistros = relatorioEntity.Count()
+    };
 })
 .WithOpenApi();
 
