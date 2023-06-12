@@ -2,7 +2,6 @@ using entity.Contexto;
 using entity.Entidades;
 using entity.ModelViews;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 public class ClienteResource
 {
