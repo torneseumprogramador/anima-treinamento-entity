@@ -9,23 +9,31 @@ public class Console
     public static void Execute()
     {
         // #### Uso da estratégia 1 ####
-        //var contexto = new BancoDeDadosContexto();
+        var contexto = new BancoDeDadosContexto();
 
         // ##### exemplo inserir dados
 
-        /*
         var cliente = new Cliente
         {
+            //Id = 1,
             Nome = "William",
             Telefone = "(22)2222-2222",
             Observacao = "Um teste"
         };
 
+        var clienteMatheus = new Cliente
+        {
+            //Id = 1,
+            Nome = "Matheus",
+            Telefone = "(22)2222-2222",
+            Observacao = "Um teste"
+        };
+
         contexto.Clientes.Add(cliente);
+        contexto.Clientes.Add(clienteMatheus);
 
         contexto.SaveChanges();
 
-        */
 
         /*
         var cliente = new Cliente
