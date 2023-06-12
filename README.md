@@ -9,6 +9,7 @@ mv appsettings.json.sample appsettings.json
 - criar mais evolutivas com migrations
 - trazer dados relacionados
 - querys com entity (query com entity, com linq to sql e com query bruta)
-- models views para o entity (scaffold)
 - possiveis problemas ao buscar e salvar registros novos
+
 - trabalhar com async (paralelismo)
+- models views para o entity (scaffold) MVC
