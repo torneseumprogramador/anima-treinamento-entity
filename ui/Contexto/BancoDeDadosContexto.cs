@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using entity.Entidades;
+using System.Text.RegularExpressions;
+using System;
 
 namespace entity.Contexto;
 
@@ -10,7 +12,12 @@ public class BancoDeDadosContexto : DbContext
     {
     }
 
+    private string nomeBanco;
     public BancoDeDadosContexto() { }
+    public BancoDeDadosContexto(string nomeBanco)
+    { 
+        this.nomeBanco = nomeBanco;
+    }
 
     // modo 2 de especificar os dados em uma tabela
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -80,7 +87,15 @@ public class BancoDeDadosContexto : DbContext
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            optionsBuilder.UseMySql(configuration.GetConnectionString("conexao"), 
+            var connectionString = configuration.GetConnectionString("conexao");
+
+            if(!string.IsNullOrEmpty(connectionString))
+            {
+                string regex = "database=(.*?);";
+                connectionString = Regex.Replace(connectionString, regex, $"database={this.nomeBanco};");
+            }
+
+            optionsBuilder.UseMySql(connectionString, 
                 new MySqlServerVersion(new Version(8, 0, 21)));
         }
     }

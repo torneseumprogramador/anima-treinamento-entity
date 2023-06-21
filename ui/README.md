@@ -11,9 +11,9 @@ mv appsettings.json.sample appsettings.json
 - querys com entity (query com entity, com linq to sql e com query bruta)
 - possiveis problemas ao buscar e salvar registros novos
 - trabalhar com async (paralelismo)
-
 - models views para o entity (scaffold) MVC
 - api no padrão MVC - não minimal api
+
 - testes automatizados (Unidade, Funciondalidade, Request, Comportamento)
 - Integração contínua (Pipeline)
 - Design patterns (Solid, Observer, Builder, outros)
