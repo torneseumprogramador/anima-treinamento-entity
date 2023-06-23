@@ -75,8 +75,6 @@ public class BancoDeDadosContexto : DbContext
         base.OnModelCreating(modelBuilder);
     }
 
-    
-
     // estratégia 1 = vc pode criar a instancia de onde estiver do seu contexto
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -100,9 +98,9 @@ public class BancoDeDadosContexto : DbContext
         }
     }
 
-    public DbSet<Cliente> Clientes { get; set; } = default!;
-    public DbSet<Fornecedor> Fornecedores { get; set; } = default!;
-    public DbSet<Pedido> Pedidos { get; set; } = default!;
-    public DbSet<Produto> Produtos { get; set; } = default!;
-    public DbSet<PedidoProduto> PedidosProdutos { get; set; } = default!;
+    public virtual DbSet<Cliente> Clientes { get; set; } = default!;
+    public virtual DbSet<Fornecedor> Fornecedores { get; set; } = default!;
+    public virtual DbSet<Pedido> Pedidos { get; set; } = default!;
+    public virtual DbSet<Produto> Produtos { get; set; } = default!;
+    public virtual DbSet<PedidoProduto> PedidosProdutos { get; set; } = default!;
 }

@@ -2,6 +2,8 @@
 using entity.Contexto;
 using entity.Entidades;
 using Microsoft.EntityFrameworkCore;
+// using test.Mocks;
+using Moq;
 
 namespace test;
 
@@ -9,36 +11,14 @@ public class ClienteServicoTest
 {
     public ClienteServicoTest()
     {
-        // 1 - // TODO interface Mocada de contexto
-        // 2 - // TODO como mockar o entity
-        
-        contexto = new BancoDeDadosContexto("anima_dev_test");  // TODO como mockar o entity
-        servico = new ClienteServico(contexto); // TODO interface Mocada de contexto
+        contextoMock = new Mock<BancoDeDadosContexto>();
+        mockDbSet = new Mock<DbSet<Cliente>>();
+        servico = new ClienteServico(contextoMock.Object); // TODO interface Mocada de contexto
     }
 
     private ClienteServico servico = default!;
-    private BancoDeDadosContexto contexto = default!;
-
-    private void limpar()
-    {
-        var connection = contexto.Database.GetDbConnection();
-        try
-        {
-            connection.Open();
-
-            using (var command = connection.CreateCommand())
-            {
-                var query = "delete from tb_clientes";
-                command.CommandText = query;
-                command.ExecuteNonQuery();
-            }
-        }
-        finally
-        {
-            connection.Close();
-        }
-    }
-    
+    private Mock<BancoDeDadosContexto> contextoMock = default!;
+    private Mock<DbSet<Cliente>> mockDbSet;
 
     [Fact]
     public void TestandoContrutor()
@@ -48,25 +28,72 @@ public class ClienteServicoTest
 
     [Fact]
     public void ObterTodosClientes()
-    {
-        limpar();
+    {   
+        // Arrange
+        var dados = new List<Cliente>();
+        mockDbSetAction(dados);
+
+        contextoMock.Setup(x => x.Clientes).Returns(mockDbSet.Object); // Utilize um método virtual
+
         var clientes = servico.ObterTodosClientes();
         Assert.Equal(0, clientes.Count);
     }
 
     [Fact]
+    public void ObterUmClientes()
+    {   
+        // Arrange
+        var dados = new List<Cliente>(){
+            new Cliente()
+        };
+        mockDbSetAction(dados);
+        contextoMock.Setup(x => x.Clientes).Returns(mockDbSet.Object); // Utilize um método virtual
+
+        // Act
+        var clientes = servico.ObterTodosClientes();
+
+        // Assert
+        Assert.Equal(1, clientes.Count);
+    }
+
+    private void mockDbSetAction(List<Cliente> lista)
+    {
+        var dados = lista.AsQueryable();
+        mockDbSet.As<IQueryable<Cliente>>().Setup(m => m.Provider).Returns(dados.Provider);
+        mockDbSet.As<IQueryable<Cliente>>().Setup(m => m.Expression).Returns(dados.Expression);
+        mockDbSet.As<IQueryable<Cliente>>().Setup(m => m.ElementType).Returns(dados.ElementType);
+        mockDbSet.As<IQueryable<Cliente>>().Setup(m => m.GetEnumerator()).Returns(dados.GetEnumerator());
+    }
+
+
+    [Fact]
     public void ObterClientePorIdNaoExistente()
     {
+        // Arrange
+        var dados = new List<Cliente>(){};
+        mockDbSetAction(dados);
+        contextoMock.Setup(x => x.Clientes).Returns(mockDbSet.Object); // Utilize um método virtual
+
+
         var cliente = servico.ObterClientePorId(1);
         Assert.Equal(null, cliente);
     }
 
     [Fact]
-    public async Task ObterClientePorIdExistente()
+    public void ObterClientePorIdExistente()
     {
-        await servico.AdicionarCliente(new Cliente(){ Nome = "teste", Observacao = "ssss", Telefone = "1111" });
-
+        // Arrange
+        var dados = new List<Cliente>(){
+            new Cliente() {
+                Id = 1,
+                Nome = "João Victor"
+            }
+        };
+        mockDbSetAction(dados);
+        contextoMock.Setup(x => x.Clientes).Returns(mockDbSet.Object); // Utilize um método virtual
+            
         var cliente = servico.ObterClientePorId(1);
         Assert.NotNull(cliente);
+        Assert.Equal("JOÃO VICTOR", cliente.Nome);
     }
 }

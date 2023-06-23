@@ -13,7 +13,12 @@ public class ClienteServico
         _contexto = contexto;
     }
 
-    public List<Cliente> ObterTodosClientes()
+    // public ClienteServico()
+    // {
+    //     _contexto = new BancoDeDadosContexto();
+    // }
+
+    public virtual List<Cliente> ObterTodosClientes()
     {
         return _contexto.Clientes.ToList();
     }

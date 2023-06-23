@@ -8,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// builder.Services.AddScoped<IBancoDeDadosContexto, BancoDeDadosContexto>();
+
 builder.Services.AddScoped<ClienteServico>();
 // estratégia 2 adicionando sobre injeção de dependência
 builder.Services.AddDbContext<BancoDeDadosContexto>(options =>

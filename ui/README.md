@@ -15,8 +15,9 @@ mv appsettings.json.sample appsettings.json
 - api no padrão MVC - não minimal api
 
 - testes automatizados (Unidade, Funciondalidade, Request, Comportamento)
-- Integração contínua (Pipeline)
 - Design patterns (Solid, Observer, Builder, outros)
+
+- Integração contínua (Pipeline)
 - GitFlow
 - Dockerização (Docker, Docker-Compose, Docker Swarm, Kubernetes)
 - Service Mash (Apis interligadas - Identity server (Montado) - circuito break RestClient)
