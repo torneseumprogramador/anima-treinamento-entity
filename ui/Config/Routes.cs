@@ -13,6 +13,8 @@ public class Routes
 
         #region Clientes
         app.MapGet("/clientes-com-pedidos", ClienteResource.ClienteComPedido).WithOpenApi();
+        
+        app.MapPost("/clientes", ClienteResource.CadastrarCliente).WithOpenApi();
 
         // Forma 1 - Não paralelo
         app.MapGet("/clientes-blocante", ClienteResource.ClientesBlocante).WithOpenApi();

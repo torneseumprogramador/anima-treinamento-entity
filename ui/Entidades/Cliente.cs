@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using entity.Patterns;
 
 namespace entity.Entidades;
@@ -20,5 +21,6 @@ public record Cliente
     public string Observacao { get; set; } = default!;
 
     [NotMapped]
+    [JsonIgnore]
     public CPF Cpf { get; set; } = default!;
 }

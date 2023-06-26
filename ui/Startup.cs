@@ -21,9 +21,8 @@ public class Startup
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
 
-        // services.AddScoped<IBancoDeDadosContexto, BancoDeDadosContexto>();
+        services.AddScoped<IClienteServico, ClienteServico>();
 
-        services.AddScoped<ClienteServico>();
         // estratégia 2 adicionando sobre injeção de dependência
         services.AddDbContext<BancoDeDadosContexto>(options =>
         {
