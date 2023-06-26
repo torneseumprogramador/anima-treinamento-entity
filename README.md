@@ -13,12 +13,12 @@ mv appsettings.json.sample appsettings.json
 - trabalhar com async (paralelismo)
 - models views para o entity (scaffold) MVC
 - api no padrão MVC - não minimal api
-
 - testes automatizados (Unidade, Funciondalidade, Request, Comportamento)
-- Design patterns (Solid, Observer, Builder, outros)
 
 - Integração contínua (Pipeline)
+- Design patterns (Solid, Observer, Builder, outros)
 - GitFlow
+
 - Dockerização (Docker, Docker-Compose, Docker Swarm, Kubernetes)
 - Service Mash (Apis interligadas - Identity server (Montado) - circuito break RestClient)
 - Token JWT
