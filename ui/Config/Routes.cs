@@ -1,6 +1,6 @@
 public class Routes
 {
-    public static void Registar(WebApplication app)
+    public static void Registar(IEndpointRouteBuilder app)
     {
         #region weatherforecast
         app.MapGet("/weatherforecast", WeatherforecastResource.Index).WithName("GetWeatherForecast").WithOpenApi();
