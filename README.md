@@ -15,7 +15,8 @@ mv appsettings.json.sample appsettings.json
 - api no padrão MVC - não minimal api
 - testes automatizados (Unidade, Funciondalidade, Request, Comportamento)
 
-- Integração contínua (Pipeline)
+- Deploy / Integração contínua (Pipeline)
+
 - Design patterns (Solid, Observer, Builder, outros)
 - GitFlow
 
@@ -23,4 +24,8 @@ mv appsettings.json.sample appsettings.json
 - Service Mash (Apis interligadas - Identity server (Montado) - circuito break RestClient)
 - Token JWT
 - Background (SQS)
-- Deploys etc
+
+
+- Deploy Aula 
+- Windows: https://chat.openai.com/share/2df4ce37-3ef7-4b47-bba7-268429279284
+- Linux: https://chat.openai.com/share/d878c114-ff36-42b5-b170-24adf36f495b
