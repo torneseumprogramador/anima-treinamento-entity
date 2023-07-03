@@ -14,7 +14,6 @@ mv appsettings.json.sample appsettings.json
 - models views para o entity (scaffold) MVC
 - api no padrão MVC - não minimal api
 - testes automatizados (Unidade, Funciondalidade, Request, Comportamento)
-
 - Deploy / Integração contínua (Pipeline)
 
 - Design patterns (Solid, Observer, Builder, outros)
@@ -29,3 +28,4 @@ mv appsettings.json.sample appsettings.json
 - Deploy Aula 
 - Windows: https://chat.openai.com/share/2df4ce37-3ef7-4b47-bba7-268429279284
 - Linux: https://chat.openai.com/share/d878c114-ff36-42b5-b170-24adf36f495b
+
