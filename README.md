@@ -15,15 +15,16 @@ mv appsettings.json.sample appsettings.json
 - api no padrão MVC - não minimal api
 - testes automatizados (Unidade, Funciondalidade, Request, Comportamento)
 - Deploy / Integração contínua (Pipeline)
+- Dockerização (Docker, Docker-Compose, Docker Swarm, Kubernetes)
 
+- Docker-Compose
 - Design patterns (Solid, Observer, Builder, outros)
 - GitFlow
 
-- Dockerização (Docker, Docker-Compose, Docker Swarm, Kubernetes)
 - Service Mash (Apis interligadas - Identity server (Montado) - circuito break RestClient)
 - Token JWT
 - Background (SQS)
-
+- Kubernetes etc
 
 - Deploy Aula 
 - Windows: https://chat.openai.com/share/2df4ce37-3ef7-4b47-bba7-268429279284
