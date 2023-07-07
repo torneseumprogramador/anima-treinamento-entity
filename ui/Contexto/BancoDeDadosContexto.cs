@@ -80,12 +80,17 @@ public class BancoDeDadosContexto : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("appsettings.json")
-                .Build();
+            string connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
+            if(string.IsNullOrEmpty(connectionString))
+            {
 
-            var connectionString = configuration.GetConnectionString("conexao");
+                var configuration = new ConfigurationBuilder()
+                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+
+                connectionString = configuration.GetConnectionString("conexao");
+            }
 
             if(!string.IsNullOrEmpty(connectionString))
             {

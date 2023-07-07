@@ -16,13 +16,13 @@ mv appsettings.json.sample appsettings.json
 - testes automatizados (Unidade, Funciondalidade, Request, Comportamento)
 - Deploy / Integração contínua (Pipeline)
 - Dockerização (Docker, Docker-Compose, Docker Swarm, Kubernetes)
-
 - Docker-Compose
+
 - Design patterns (Solid, Observer, Builder, outros)
 - GitFlow
-
 - Service Mash (Apis interligadas - Identity server (Montado) - circuito break RestClient)
 - Token JWT
+
 - Background (SQS)
 - Kubernetes etc
 

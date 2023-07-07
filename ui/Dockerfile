@@ -5,7 +5,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /app
 
 # Copia a pasta publish para dentro do contêiner Rodar o comando no terminal 'dotnet publish -c Release -o out'
-COPY ./out .
+COPY ./publish .
 
 # Copia o arquivo appsettings.docker.json e renomeia para appsettings.json
 COPY appsettings.docker.json appsettings.json

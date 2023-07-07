@@ -26,7 +26,11 @@ public class Startup
         // estratégia 2 adicionando sobre injeção de dependência
         services.AddDbContext<BancoDeDadosContexto>(options =>
         {
-            options.UseMySql(Configuration.GetConnectionString("conexao"),
+            string cnn = Environment.GetEnvironmentVariable("DATABASE_URL");
+            if(string.IsNullOrEmpty(cnn))
+                cnn = Configuration.GetConnectionString("conexao").ToString();
+                
+            options.UseMySql(cnn,
                 new MySqlServerVersion(new Version(8, 0, 21)));
         });
     }
