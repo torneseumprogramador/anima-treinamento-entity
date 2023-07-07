@@ -1,0 +1,40 @@
+version: '3.9'
+services:
+  sistema_entity:
+    container_name: dotnet_entity
+    build:
+      dockerfile: DockerfileEnv
+      context: ui/
+    image: dotnet_entity_didox
+    ports: 
+      - "80:80"
+    depends_on:
+      - mysql_anima_servico
+    environment:
+      - DATABASE_URL="server=mysql_anima_servico;database=entity_anima;user=root;password=m9y5s6q3l"
+    networks:
+      - anima-network
+    # command: sh -c "dotnet ef database update"
+
+  mysql_anima_servico:
+    container_name: mysql_anima_servico
+    build:
+      dockerfile: Dockerfile
+      context: mysql/
+    image: mysql-didox
+    environment:
+      MYSQL_USER: danilo
+      MYSQL_PASSWORD: m9y5s6q3l
+      MYSQL_ROOT_PASSWORD: m9y5s6q3l
+      MYSQL_DATABASE: entity_anima
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+    networks:
+      - anima-network
+    #command: sh -c "exec mysql -uroot -p'root' entity_anima < /dump.sql" 
+
+networks: 
+  anima-network:
+    driver: bridge

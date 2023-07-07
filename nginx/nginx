@@ -1,0 +1,10 @@
+upstream loadbalancer {
+  server sistema_java1:8080;
+  server sistema_java2:8080;
+  server sistema_java3:8080;
+}
+server {
+  location / {
+    proxy_pass http://loadbalancer;
+  }
+}
