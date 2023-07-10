@@ -22,6 +22,8 @@ mv appsettings.json.sample appsettings.json
 
 - Token JWT
 - Service Mash (Apis interligadas - Identity server (Montado) - circuito break RestClient)
+- Fazer uma implementação em api
+- Fazer refresh token
 
 - Background (SQS)
 - Kubernetes etc
