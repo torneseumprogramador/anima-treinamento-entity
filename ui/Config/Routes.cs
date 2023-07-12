@@ -1,35 +1,39 @@
+using entity.Filters;
+
 public class Routes
 {
     public static void Registar(IEndpointRouteBuilder app)
     {
         #region weatherforecast
-        app.MapGet("/weatherforecast", WeatherforecastResource.Index).WithName("GetWeatherForecast").WithOpenApi();
-        #endregion
+        app.MapGet("/weatherforecast", WeatherforecastResource.Index)
+            .AddEndpointFilter<AuthenticationFilter>()
+            .WithName("GetWeatherForecast").WithOpenApi();
 
+        #endregion
 
         #region Home
         app.MapGet("/", HomeResource.Index).WithName("Home").WithOpenApi();
         #endregion
 
         #region Clientes
-        app.MapGet("/clientes-com-pedidos", ClienteResource.ClienteComPedido).WithOpenApi();
-        
-        app.MapPost("/clientes", ClienteResource.CadastrarCliente).WithOpenApi();
+        app.MapGet("/clientes-com-pedidos", ClienteResource.ClienteComPedido).WithOpenApi().AddEndpointFilter<AuthenticationFilter>();
+       
+        app.MapPost("/clientes", ClienteResource.CadastrarCliente).AddEndpointFilter<AuthenticationFilter>().WithOpenApi();
 
         // Forma 1 - Não paralelo
-        app.MapGet("/clientes-blocante", ClienteResource.ClientesBlocante).WithOpenApi();
+        app.MapGet("/clientes-blocante", ClienteResource.ClientesBlocante).AddEndpointFilter<AuthenticationFilter>().WithOpenApi();
 
         // Forma 2
-        app.MapGet("/clientes-tread", ClienteResource.ClientesTread).WithOpenApi();
+        app.MapGet("/clientes-tread", ClienteResource.ClientesTread).AddEndpointFilter<AuthenticationFilter>().WithOpenApi();
 
         // Forma 3
-        app.MapGet("/clientes-async", ClienteResource.ClientesAsync).WithOpenApi();
+        app.MapGet("/clientes-async", ClienteResource.ClientesAsync).AddEndpointFilter<AuthenticationFilter>().WithOpenApi();
 
         // Forma 4
-        app.MapGet("/clientes-metodo-com-async", ClienteResource.ClientesMedodoComAsync).WithOpenApi();
+        app.MapGet("/clientes-metodo-com-async", ClienteResource.ClientesMedodoComAsync).AddEndpointFilter<AuthenticationFilter>().WithOpenApi();
 
         // Forma 5
-        app.MapGet("/clientes-metodo-com-async-task-from", ClienteResource.ClientesMedodoComAsyncTaskFrom).WithOpenApi();
+        app.MapGet("/clientes-metodo-com-async-task-from", ClienteResource.ClientesMedodoComAsyncTaskFrom).AddEndpointFilter<AuthenticationFilter>().WithOpenApi();
         #endregion
     }
 }

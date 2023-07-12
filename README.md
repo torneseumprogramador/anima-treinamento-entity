@@ -19,11 +19,12 @@ mv appsettings.json.sample appsettings.json
 - Docker-Compose
 - Design patterns (Solid, Observer, Builder, outros)
 - GitFlow
-
 - Token JWT
-- Service Mash (Apis interligadas - Identity server (Montado) - circuito break RestClient)
 - Fazer uma implementação em api
 - Fazer refresh token
+
+- Service Mash (Apis interligadas - Identity server (Montado) - circuito break RestClient)
+
 
 - Background (SQS)
 - Kubernetes etc

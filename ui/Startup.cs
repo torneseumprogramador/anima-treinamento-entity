@@ -1,4 +1,5 @@
 using entity.Contexto;
+using entity.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
@@ -22,6 +23,7 @@ public class Startup
         services.AddSwaggerGen();
 
         services.AddScoped<IClienteServico, ClienteServico>();
+        services.AddScoped<AuthenticationFilter>(); // Registra o filtro de autenticação como um serviço
 
         // estratégia 2 adicionando sobre injeção de dependência
         services.AddDbContext<BancoDeDadosContexto>(options =>

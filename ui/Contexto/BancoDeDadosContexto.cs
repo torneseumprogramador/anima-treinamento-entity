@@ -1,3 +1,5 @@
+#nullable disable
+
 using Microsoft.EntityFrameworkCore;
 using entity.Entidades;
 using System.Text.RegularExpressions;

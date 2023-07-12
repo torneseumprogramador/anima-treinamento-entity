@@ -5,18 +5,19 @@ using Microsoft.AspNetCore.Mvc;
 
 using Microsoft.AspNetCore.Http;
 
-
 public class ClienteResource
 {
-    public static RegistroPaginado<PedidoClienteSomadas> ClienteComPedido([FromServices] IClienteServico servico, [FromQuery] int? page)
+    public static IResult ClienteComPedido( [FromServices] IClienteServico servico, [FromQuery] int? page)
     {
-        return servico.AulaEntityFramework(page);
+        var retorno = servico.AulaEntityFramework(page);
+        return Results.Json(retorno, null, null, 200);
     }
 
-    public static List<Cliente> ClientesBlocante([FromServices] IClienteServico servico)
+    public static IResult ClientesBlocante([FromServices] IClienteServico servico)
     {
         // Forma 1
-        return servico.ObterTodosClientes();
+        var retorno = servico.ObterTodosClientes();
+        return Results.Json(retorno, null, null, 200);
     }
 
     public static async Task<IResult> CadastrarCliente([FromServices] IClienteServico servico, [FromBody] Cliente cliente)
@@ -27,7 +28,7 @@ public class ClienteResource
     }
 
 
-    public static List<Cliente> ClientesTread([FromServices] IClienteServico servico)
+    public static IResult ClientesTread([FromServices] IClienteServico servico)
     {
         // Forma 2
         List<Cliente> clientes =  new List<Cliente>();
@@ -40,33 +41,33 @@ public class ClienteResource
         thread.Start();
         thread.Join(); // Aguarda a conclusão da thread
 
-        return clientes;
+        return Results.Json(clientes, null, null, 200);
     }
 
 
-    public static async Task<List<Cliente>> ClientesAsync([FromServices] IClienteServico servico)
+    public static async Task<IResult> ClientesAsync([FromServices] IClienteServico servico)
     {
         // Forma 3
         List<Cliente> clientes =  new List<Cliente>();
         clientes = await servico.ObterTodosClientesAsync();
 
-        return clientes;
+        return Results.Json(clientes, null, null, 200);
     }
 
 
-    public static List<Cliente> ClientesMedodoComAsync([FromServices] IClienteServico servico)
+    public static IResult ClientesMedodoComAsync([FromServices] IClienteServico servico)
     {
         // Forma 4
         List<Cliente> clientes = servico.ObterTodosClientesAsync().Result;
-        return clientes;
+        return Results.Json(clientes, null, null, 200);
     }
 
 
-    public static List<Cliente> ClientesMedodoComAsyncTaskFrom([FromServices] IClienteServico servico)
+    public static IResult ClientesMedodoComAsyncTaskFrom([FromServices] IClienteServico servico)
     {
         // Forma 5
         List<Cliente> clientes = Task.FromResult(servico.ObterTodosClientesAsync().Result).Result;
 
-        return clientes;
+        return Results.Json(clientes, null, null, 200);
     }
 }
