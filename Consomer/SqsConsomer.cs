@@ -11,10 +11,10 @@ public class SqsConsumer
 
     public SqsConsumer()
     {
-        var awsAccessKey = "AKIA3DVZFLJH7KFWAGDY"; //Environment.GetEnvironmentVariable("AWS_ACCESS_KEY");
-        var awsSecretKey = "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"; //Environment.GetEnvironmentVariable("AWS_SECRET_KEY");
-        var awsRegion = "us-east-1"; // Environment.GetEnvironmentVariable("AWS_REGION");
-        _queueUrl = "https://sqs.us-east-1.amazonaws.com/763818760783/anima"; //Environment.GetEnvironmentVariable("AWS_SQS_QUEUE_URL");
+        var awsAccessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY");
+        var awsSecretKey = Environment.GetEnvironmentVariable("AWS_SECRET_KEY");
+        var awsRegion = Environment.GetEnvironmentVariable("AWS_REGION");
+        _queueUrl = Environment.GetEnvironmentVariable("AWS_SQS_QUEUE_URL");
 
 
         if (string.IsNullOrEmpty(awsAccessKey) || string.IsNullOrEmpty(awsSecretKey) || string.IsNullOrEmpty(awsRegion))
