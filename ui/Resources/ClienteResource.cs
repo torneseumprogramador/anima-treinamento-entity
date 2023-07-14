@@ -4,6 +4,7 @@ using entity.ModelViews;
 using Microsoft.AspNetCore.Mvc;
 
 using Microsoft.AspNetCore.Http;
+using System.Text.Json;
 
 public class ClienteResource
 {
@@ -11,6 +12,34 @@ public class ClienteResource
     {
         var retorno = servico.AulaEntityFramework(page);
         return Results.Json(retorno, null, null, 200);
+    }
+
+    public static async Task<IResult> MandarMensagemFila( string mensagem )
+    {
+        Thread newThread = new Thread(LogMessage);
+        newThread.Start();
+
+
+
+
+        // envio para a fila
+        var cliente = new Cliente() {
+            Id = 1,
+            Nome = mensagem
+        };
+
+        var jsonString = JsonSerializer.Serialize(cliente);
+        // await new ProducerSqs().SendAsync(jsonString);
+
+        // new ProducerKafka().Send(jsonString);
+        new ProducerRabbitMq().Send(jsonString);
+
+        return Results.Json(new { Mensagem = "Processado" }, null, null, 200);
+    }
+
+    private static void LogMessage(object? obj)
+    {
+        System.Console.WriteLine("mensagem em paralelo com thread.");
     }
 
     public static IResult ClientesBlocante([FromServices] IClienteServico servico)

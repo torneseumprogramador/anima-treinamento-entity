@@ -17,6 +17,9 @@ public class Routes
 
         #region Clientes
         app.MapGet("/clientes-com-pedidos", ClienteResource.ClienteComPedido).WithOpenApi().AddEndpointFilter<AuthenticationFilter>();
+        
+        
+        app.MapPost("/clientes/fila", ClienteResource.MandarMensagemFila).WithOpenApi();
        
         app.MapPost("/clientes", ClienteResource.CadastrarCliente).AddEndpointFilter<AuthenticationFilter>().WithOpenApi();
 
